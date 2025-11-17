@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "title": "Getting Started with Next.js and TypeScript",
+    "slug": "getting-started-nextjs-typescript",
+    "excerpt": "Learn how to set up a new Next.js project with TypeScript and start building modern web applications.",
+    "content": "Next.js is a powerful React framework that makes it easy to build server-side rendered and statically generated web applications. In this post, we'll explore how to get started with Next.js and TypeScript...",
+    "author": "John Doe",
+    "publishedAt": "2024-01-15T10:00:00Z",
+    "image": "https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Next.js+TypeScript",
+    "category": "web-development",
+    "tags": ["nextjs", "typescript", "react"],
+    "views": 1250,
+    "likes": 45
+  },
+  {
+    "id": "2",
+    "title": "Understanding Large Language Models",
+    "slug": "understanding-large-language-models",
+    "excerpt": "A comprehensive guide to understanding how large language models work and their applications in modern AI.",
+    "content": "Large Language Models (LLMs) have revolutionized the field of artificial intelligence. These models, trained on vast amounts of text data, can generate human-like text, answer questions, and perform various language-related tasks...",
+    "author": "John Doe",
+    "publishedAt": "2024-01-20T14:30:00Z",
+    "image": "https://via.placeholder.com/800x400/10B981/FFFFFF?text=Understanding+LLMs",
+    "category": "ai-llm-rag",
+    "tags": ["ai", "llm", "machine-learning"],
+    "views": 2100,
+    "likes": 78
+  },
+  {
+    "id": "3",
+    "title": "Database Design Best Practices",
+    "slug": "database-design-best-practices",
+    "excerpt": "Essential principles and best practices for designing efficient and scalable databases.",
+    "content": "Good database design is crucial for building robust and performant applications. In this article, we'll cover the fundamental principles of database design, including normalization, indexing, and relationship management...",
+    "author": "John Doe",
+    "publishedAt": "2024-01-25T09:15:00Z",
+    "image": "https://via.placeholder.com/800x400/8B5CF6/FFFFFF?text=Database+Design",
+    "category": "databases",
+    "tags": ["database", "design", "sql"],
+    "views": 890,
+    "likes": 32
+  },
+  {
+    "id": "4",
+    "title": "The Future of Web Development",
+    "slug": "future-web-development",
+    "excerpt": "Exploring emerging trends and technologies that will shape the future of web development.",
+    "content": "Web development is constantly evolving, with new technologies and frameworks emerging regularly. In this post, we'll look at some of the most promising trends that are likely to shape the future of web development...",
+    "author": "John Doe",
+    "publishedAt": "2024-02-01T11:45:00Z",
+    "image": "https://via.placeholder.com/800x400/F59E0B/FFFFFF?text=Future+of+Web+Dev",
+    "category": "web-development",
+    "tags": ["web-development", "trends", "future"],
+    "views": 1650,
+    "likes": 67
+  },
+  {
+    "id": "5",
+    "title": "Implementing RAG Systems",
+    "slug": "implementing-rag-systems",
+    "excerpt": "A practical guide to implementing Retrieval-Augmented Generation systems for enhanced AI applications.",
+    "content": "Retrieval-Augmented Generation (RAG) combines the power of large language models with external knowledge retrieval to provide more accurate and contextually relevant responses. This approach addresses some of the limitations of standalone LLMs...",
+    "author": "John Doe",
+    "publishedAt": "2024-02-05T16:20:00Z",
+    "image": "https://via.placeholder.com/800x400/EC4899/FFFFFF?text=RAG+Systems",
+    "category": "ai-llm-rag",
+    "tags": ["rag", "ai", "retrieval"],
+    "views": 1850,
+    "likes": 59
+  }
+]

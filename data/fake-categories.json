@@ -1,0 +1,27 @@
+[
+  {
+    "id": "ai-llm-rag",
+    "name": "AI, LLM, RAG",
+    "description": "Artificial Intelligence, Large Language Models, and Retrieval-Augmented Generation"
+  },
+  {
+    "id": "frontend-backend",
+    "name": "Frontend & Backend",
+    "description": "Web development technologies for client and server sides"
+  },
+  {
+    "id": "web-development",
+    "name": "Web Development",
+    "description": "General web development practices and tools"
+  },
+  {
+    "id": "databases",
+    "name": "Databases",
+    "description": "Database design, management, and technologies"
+  },
+  {
+    "id": "news",
+    "name": "News",
+    "description": "Latest news and updates in technology"
+  }
+]
