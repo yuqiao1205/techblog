@@ -5,12 +5,13 @@ import Post from '@/models/Post'
 // GET /api/posts/[id] - Get a single post
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect()
 
-    const post = await Post.findById(params.id).lean()
+    const { id } = await params
+    const post = await Post.findById(id).lean()
 
     if (!post) {
       return NextResponse.json(
@@ -32,11 +33,12 @@ export async function GET(
 // PUT /api/posts/[id] - Update a post
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect()
 
+    const { id } = await params
     const body = await request.json()
     const {
       title,
@@ -54,7 +56,7 @@ export async function PUT(
 
     // Check if slug already exists for another post
     if (slug) {
-      const existingPost = await Post.findOne({ slug, _id: { $ne: params.id } })
+      const existingPost = await Post.findOne({ slug, _id: { $ne: id } })
       if (existingPost) {
         return NextResponse.json(
           { error: 'Post with this slug already exists' },
@@ -64,7 +66,7 @@ export async function PUT(
     }
 
     const updatedPost = await Post.findByIdAndUpdate(
-      params.id,
+      id,
       {
         ...(title && { title }),
         ...(slug && { slug }),
@@ -101,12 +103,13 @@ export async function PUT(
 // DELETE /api/posts/[id] - Delete a post
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect()
 
-    const deletedPost = await Post.findByIdAndDelete(params.id).lean()
+    const { id } = await params
+    const deletedPost = await Post.findByIdAndDelete(id).lean()
 
     if (!deletedPost) {
       return NextResponse.json(
