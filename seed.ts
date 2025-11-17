@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import clientPromise from './src/lib/mongodb.ts';
+import { clientPromise } from './src/lib/mongodb.ts';
 import bcrypt from 'bcryptjs';
 import fs from 'fs';
 import path from 'path';
