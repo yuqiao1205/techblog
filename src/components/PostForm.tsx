@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FancyDropdown from './FancyDropdown'
+import { createPostAction, updatePostAction } from '@/lib/action'
 
 interface PostFormData {
   title: string
@@ -38,42 +39,22 @@ export default function PostForm({ initialData, isEditing = false, postId }: Pos
     publishedAt: initialData?.publishedAt || new Date().toISOString().split('T')[0],
   })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (formData: FormData) => {
     setLoading(true)
     setError('')
 
-    try {
-      const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+    const tagsArray = formData.get('tags') ? (formData.get('tags') as string).split(',').map(tag => tag.trim()).filter(tag => tag) : []
+    formData.set('tags', tagsArray.join(','))
 
-      const postData = {
-        ...formData,
-        tags: tagsArray,
-        publishedAt: new Date(formData.publishedAt),
-      }
+    const result = isEditing ? await updatePostAction(formData) : await createPostAction(formData)
 
-      const url = isEditing ? `/api/posts/${postId}` : '/api/posts'
-      const method = isEditing ? 'PUT' : 'POST'
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      })
-
-      if (response.ok) {
-        router.push('/admin')
-      } else {
-        const errorData = await response.json()
-        setError(errorData.error || 'Failed to save post')
-      }
-    } catch (error) {
-      setError('An error occurred while saving the post')
-    } finally {
-      setLoading(false)
+    if (result.error) {
+      setError(result.error)
+    } else {
+      router.push('/admin')
     }
+
+    setLoading(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -93,7 +74,8 @@ export default function PostForm({ initialData, isEditing = false, postId }: Pos
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form action={handleSubmit} className="space-y-6">
+      {isEditing && postId && <input type="hidden" name="id" value={postId} />}
       {error && (
         <div className="bg-red-900/20 border border-red-800/50 rounded-md p-4">
           <div className="text-red-400">{error}</div>

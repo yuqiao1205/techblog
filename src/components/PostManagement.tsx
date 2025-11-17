@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { deletePostAction } from '@/lib/action'
 
 interface Post {
   _id: string
@@ -41,24 +42,20 @@ export default function PostManagement() {
     }
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (formData: FormData) => {
+    const id = formData.get('id') as string
+
     if (!confirm('Are you sure you want to delete this post?')) {
       return
     }
 
-    try {
-      const response = await fetch(`/api/posts/${id}`, {
-        method: 'DELETE',
-      })
+    const result = await deletePostAction(formData)
 
-      if (response.ok) {
-        setPosts(posts.filter(post => post._id !== id))
-      } else {
-        const errorData = await response.json()
-        setError(errorData.error || 'Failed to delete post')
-      }
-    } catch (error) {
-      setError('An error occurred while deleting the post')
+    if (result.error) {
+      setError(result.error)
+    } else {
+      setPosts(posts.filter(post => post._id !== id))
+      setError('')
     }
   }
 
@@ -150,12 +147,15 @@ export default function PostManagement() {
                       >
                         Edit
                       </Link>
-                      <button
-                        onClick={() => handleDelete(post._id)}
-                        className="inline-flex items-center px-3 py-1.5 border border-red-800/50 shadow-sm text-xs font-medium rounded-md text-red-400 bg-red-900/20 hover:bg-red-800/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
-                      >
-                        Delete
-                      </button>
+                      <form action={handleDelete} className="inline">
+                        <input type="hidden" name="id" value={post._id} />
+                        <button
+                          type="submit"
+                          className="inline-flex items-center px-3 py-1.5 border border-red-800/50 shadow-sm text-xs font-medium rounded-md text-red-400 bg-red-900/20 hover:bg-red-800/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                        >
+                          Delete
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
