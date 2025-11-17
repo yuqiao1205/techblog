@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --card-bg: #1a1a1a;
+  --border: #374151;
 }
 
 @theme inline {
@@ -12,11 +16,24 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark theme prose styles */
+.prose-invert {
+  --tw-prose-body: rgb(229 231 235);
+  --tw-prose-headings: rgb(255 255 255);
+  --tw-prose-lead: rgb(156 163 175);
+  --tw-prose-links: rgb(59 130 246);
+  --tw-prose-bold: rgb(255 255 255);
+  --tw-prose-counters: rgb(107 114 128);
+  --tw-prose-bullets: rgb(75 85 99);
+  --tw-prose-hr: rgb(75 85 99);
+  --tw-prose-quotes: rgb(209 213 219);
+  --tw-prose-quote-borders: rgb(75 85 99);
+  --tw-prose-captions: rgb(107 114 128);
+  --tw-prose-code: rgb(229 231 235);
+  --tw-prose-pre-code: rgb(229 231 235);
+  --tw-prose-pre-bg: rgb(31 41 55);
+  --tw-prose-th-borders: rgb(75 85 99);
+  --tw-prose-td-borders: rgb(55 65 81);
 }
 
 body {

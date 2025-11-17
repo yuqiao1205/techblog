@@ -34,7 +34,7 @@ async function seedUsers(db: any) {
     email: 'test@123.com',
     password: await bcrypt.hash('123', saltRounds),
     avatar: '/noavatar.png',
-    isAdmin: false,
+    isAdmin: true,
     created_at: new Date()
   });
 

@@ -2,29 +2,59 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+
+  const isActive = (path: string) => {
+    if (path === '/' && pathname === '/') return true
+    if (path !== '/' && pathname.startsWith(path)) return true
+    return false
+  }
+
+  const linkClasses = (path: string) =>
+    `relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+      isActive(path)
+        ? 'text-blue-400 bg-blue-500/10 rounded-md'
+        : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'
+    }`
 
   return (
-    <header className="bg-white shadow-md">
-      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold text-gray-800">
+    <header className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700/50 sticky top-0 z-50 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                           radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%)`
+        }}></div>
+      </div>
+
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/5 to-cyan-600/10"></div>
+
+      <nav className="relative container mx-auto px-4 py-4 flex justify-between items-center backdrop-blur-sm">
+        <Link href="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors duration-200">
           Tech Blog
         </Link>
-        <div className="hidden md:flex space-x-6">
-          <Link href="/about" className="text-gray-600 hover:text-gray-900">
-            About Me
-          </Link>
-          <Link href="/" className="text-gray-600 hover:text-gray-900">
+        <div className="hidden md:flex space-x-2">
+          <Link href="/" className={linkClasses('/')}>
             Blog
           </Link>
-          <Link href="/contact" className="text-gray-600 hover:text-gray-900">
+          <Link href="/about" className={linkClasses('/about')}>
+            About Me
+          </Link>
+          <Link href="/contact" className={linkClasses('/contact')}>
             Contact
+          </Link>
+          <Link href="/admin/login" className={linkClasses('/admin')}>
+            Admin
           </Link>
         </div>
         <button
-          className="md:hidden text-gray-600"
+          className="md:hidden text-gray-300 hover:text-white"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,16 +63,20 @@ export default function Header() {
         </button>
       </nav>
       {isOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="container mx-auto px-4 py-2 space-y-2">
-            <Link href="/about" className="block text-gray-600 hover:text-gray-900" onClick={() => setIsOpen(false)}>
-              About Me
-            </Link>
-            <Link href="/" className="block text-gray-600 hover:text-gray-900" onClick={() => setIsOpen(false)}>
+        <div className="md:hidden bg-gray-900/98 backdrop-blur-md border-t border-gray-700/50 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/3 to-cyan-600/5"></div>
+          <div className="relative container mx-auto px-4 py-2 space-y-1">
+            <Link href="/" className={`block px-3 py-2 text-sm font-medium transition-colors duration-200 ${isActive('/') ? 'text-blue-400 bg-blue-500/10 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'}`} onClick={() => setIsOpen(false)}>
               Blog
             </Link>
-            <Link href="/contact" className="block text-gray-600 hover:text-gray-900" onClick={() => setIsOpen(false)}>
+            <Link href="/about" className={`block px-3 py-2 text-sm font-medium transition-colors duration-200 ${isActive('/about') ? 'text-blue-400 bg-blue-500/10 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'}`} onClick={() => setIsOpen(false)}>
+              About Me
+            </Link>
+            <Link href="/contact" className={`block px-3 py-2 text-sm font-medium transition-colors duration-200 ${isActive('/contact') ? 'text-blue-400 bg-blue-500/10 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'}`} onClick={() => setIsOpen(false)}>
               Contact
+            </Link>
+            <Link href="/admin/login" className={`block px-3 py-2 text-sm font-medium transition-colors duration-200 ${isActive('/admin') ? 'text-blue-400 bg-blue-500/10 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'}`} onClick={() => setIsOpen(false)}>
+              Admin
             </Link>
           </div>
         </div>
