@@ -92,7 +92,7 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
               <div className="aspect-[4/3] bg-gradient-to-br from-gray-800 to-gray-900 relative">
                 <Image
-                  src="/yan2.jpg"
+                  src="https://ik.imagekit.io/0ycpbhqv8/yan2.JPG"
                   alt="Yanpeng - Tech Blogger & Developer"
                   fill
                   className="object-cover"
