@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'About Me | Tech Blog',
@@ -90,10 +91,11 @@ export default function AboutPage() {
             {/* Main Profile Image */}
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
               <div className="aspect-[4/3] bg-gradient-to-br from-gray-800 to-gray-900 relative">
-                <img
+                <Image
                   src="/yan2.jpg"
                   alt="Yanpeng - Tech Blogger & Developer"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
 
@@ -122,10 +124,11 @@ export default function AboutPage() {
             {/* Secondary Image - Workspace */}
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
               <div className="aspect-[4/3] bg-gradient-to-br from-gray-800 to-gray-900 relative">
-                <img
+                <Image
                   src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg"
                   alt="Developer Workspace"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent"></div>
 
