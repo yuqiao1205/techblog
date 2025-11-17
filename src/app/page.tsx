@@ -77,7 +77,7 @@ export default function Home() {
       <div className="relative h-64 md:h-80 overflow-hidden bg-cover bg-center" style={{backgroundImage: `url(https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg)`}}>
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">Tech Blog</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">Lauren's Tech Blog</h1>
             <p className="text-lg md:text-xl text-gray-200 drop-shadow-md">
               Discover insights on AI, web development, databases, and more.
             </p>
