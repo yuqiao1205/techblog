@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './env.js';
 import { clientPromise } from './src/lib/mongodb.ts';
 import bcrypt from 'bcryptjs';
 import fs from 'fs';
@@ -10,14 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const saltRounds = 10;
 
-async function seed() {
-  const client = await clientPromise;
-  const db = client.db();
-
-  // Clear existing data
-  await db.dropDatabase();
-
-  // Seed users
+async function seedUsers(db: any) {
   const usersData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/fake-users.json'), 'utf8'));
   const users = [];
 
@@ -46,6 +39,31 @@ async function seed() {
   });
 
   await db.collection('users').insertMany(users);
+}
+
+async function seed() {
+  const client = await clientPromise;
+  const db = client.db();
+
+  // Clear existing data by dropping collections
+  try {
+    await db.collection('users').drop();
+  } catch (e) {
+    // Collection might not exist, ignore
+  }
+  try {
+    await db.collection('categories').drop();
+  } catch (e) {
+    // Collection might not exist, ignore
+  }
+  try {
+    await db.collection('posts').drop();
+  } catch (e) {
+    // Collection might not exist, ignore
+  }
+
+  // Seed users
+  await seedUsers(db);
 
   // Seed categories
   const categoriesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/fake-categories.json'), 'utf8'));

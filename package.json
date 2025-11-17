@@ -2,6 +2,7 @@
   "name": "techblog",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,9 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
     "faker": "^6.6.6",
+    "mongodb": "^7.0.0",
     "mongoose": "^8.19.4",
     "next": "16.0.3",
     "react": "19.2.0",
