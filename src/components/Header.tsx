@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 
@@ -36,8 +37,9 @@ export default function Header() {
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/5 to-cyan-600/10"></div>
 
       <nav className="relative container mx-auto px-4 py-4 flex justify-between items-center backdrop-blur-sm">
-        <Link href="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors duration-200">
-          Tech Blog
+        <Link href="/" className="flex items-center space-x-2">
+          <Image src="/yp2.jpg" alt="Techflow Logo" width={70} height={30} className="rounded-full"  />
+          <span className="text-2xl font-bold bg-gradient-to-r from-blue-300 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-blue-200 hover:via-purple-300 hover:to-pink-300 transition-all duration-300 drop-shadow-lg">TechFlow</span>
         </Link>
         <div className="hidden md:flex space-x-2">
           <Link href="/" className={linkClasses('/')}>

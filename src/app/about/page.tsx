@@ -51,7 +51,7 @@ export default function AboutPage() {
                   "Frontend and Backend Development",
                   "Web Technologies and Frameworks",
                   "Database Design and Management",
-                  "DevOps and Cloud Computing"
+                  "Design Patterns and Best Practices",
                 ].map((interest, index) => (
                   <div key={index} className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg border border-gray-600/50 backdrop-blur-sm hover:from-gray-700/50 hover:to-gray-600/50 transition-all duration-300">
                     <div className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"></div>
@@ -94,7 +94,7 @@ export default function AboutPage() {
                 <Image
                   // src="https://ik.imagekit.io/0ycpbhqv8/yan2.JPG"
                   // src="https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg"
-                  src="https://ik.imagekit.io/0ycpbhqv8/yan2.jpg?updatedAt=1763496312628"
+                  src="/yp.jpg"
                   alt="Yanpeng - Tech Blogger & Developer"
                   fill
                   className="object-cover"
