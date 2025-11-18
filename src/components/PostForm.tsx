@@ -21,9 +21,10 @@ interface PostFormProps {
   initialData?: Partial<PostFormData>
   isEditing?: boolean
   postId?: string
+  categories?: any[]
 }
 
-export default function PostForm({ initialData, isEditing = false, postId }: PostFormProps) {
+export default function PostForm({ initialData, isEditing = false, postId, categories = [] }: PostFormProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -76,6 +77,7 @@ export default function PostForm({ initialData, isEditing = false, postId }: Pos
   return (
     <form action={handleSubmit} className="space-y-6">
       {isEditing && postId && <input type="hidden" name="id" value={postId} />}
+      <input type="hidden" name="category" value={formData.category} />
       {error && (
         <div className="bg-red-900/20 border border-red-800/50 rounded-md p-4">
           <div className="text-red-400">{error}</div>
@@ -118,14 +120,11 @@ export default function PostForm({ initialData, isEditing = false, postId }: Pos
             Category *
           </label>
           <FancyDropdown
-            options={[
-              { value: 'Technology', label: 'Technology', icon: '💻' },
-              { value: 'AI', label: 'AI', icon: '🤖' },
-              { value: 'Web Development', label: 'Web Development', icon: '🌐' },
-              { value: 'Programming', label: 'Programming', icon: '⚡' },
-              { value: 'Database', label: 'Database', icon: '🗄️' },
-              { value: 'DevOps', label: 'DevOps', icon: '🚀' }
-            ]}
+            options={categories.map((cat: any) => ({
+              value: cat.id,
+              label: cat.name,
+              icon: '📁'
+            }))}
             value={formData.category}
             onChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
             placeholder="📁 Select a category"

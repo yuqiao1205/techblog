@@ -23,5 +23,10 @@
     "id": "news",
     "name": "News",
     "description": "Latest news and updates in technology"
+  },
+  {
+    "id": "devops-cloud",
+    "name": "Programming & DevOps",
+    "description": "DevOps practices and cloud computing technologies"
   }
 ]

@@ -31,6 +31,13 @@ export const getUserById = async (id) => {
   return JSON.parse(JSON.stringify(user));
 };
 
+export const getCategories = async () => {
+  const client = await clientPromise;
+  const db = client.db();
+  const categories = await db.collection('categories').find({}).sort({ name: 1 }).toArray();
+  return JSON.parse(JSON.stringify(categories));
+};
+
 export const createPost = async (postData) => {
   const client = await clientPromise;
   const db = client.db();
@@ -161,7 +168,7 @@ export async function createPostAction(formData) {
 
     const result = await db.collection('posts').insertOne(postData);
 
-    return { success: true, postId: result.insertedId };
+    return { success: true, postId: result.insertedId.toString() };
   } catch (error) {
     console.error('Create post error:', error);
     return { error: 'Failed to create post' };

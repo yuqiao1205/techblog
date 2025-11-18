@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { getCategories } from '@/lib/action'
 import dbConnect from '@/lib/mongodb'
 import Post from '@/models/Post'
 import PostForm from '@/components/PostForm'
@@ -20,6 +21,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
   try {
     await dbConnect()
     const post = await Post.findById(id).lean()
+    const categories = await getCategories()
 
     if (!post) {
       redirect('/admin')
@@ -57,6 +59,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
               }}
               isEditing={true}
               postId={id}
+              categories={categories}
             />
           </div>
         </div>

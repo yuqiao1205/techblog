@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { getCategories } from '@/lib/action'
 import PostForm from '@/components/PostForm'
 
 export default async function NewPostPage() {
@@ -9,6 +10,8 @@ export default async function NewPostPage() {
   if (!session?.user?.isAdmin) {
     redirect('/admin/login')
   }
+
+  const categories = await getCategories()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -127,7 +130,7 @@ export default async function NewPostPage() {
           </div>
 
           <div className="p-8">
-            <PostForm />
+            <PostForm categories={categories} />
           </div>
         </div>
 
