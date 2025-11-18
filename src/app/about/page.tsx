@@ -93,7 +93,8 @@ export default function AboutPage() {
               <div className="aspect-[4/3] bg-gradient-to-br from-gray-800 to-gray-900 relative">
                 <Image
                   // src="https://ik.imagekit.io/0ycpbhqv8/yan2.JPG"
-                  src="https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg"
+                  // src="https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg"
+                  src="https://ik.imagekit.io/0ycpbhqv8/yan2.jpg?updatedAt=1763496312628"
                   alt="Yanpeng - Tech Blogger & Developer"
                   fill
                   className="object-cover"
