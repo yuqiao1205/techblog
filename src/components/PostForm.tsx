@@ -208,7 +208,7 @@ export default function PostForm({ initialData, isEditing = false, postId, categ
 
         <div className="sm:col-span-2">
           <label htmlFor="content" className="block text-sm font-medium text-gray-300">
-            Content (Markdown) *
+            Content *
           </label>
           <textarea
             name="content"
@@ -217,7 +217,8 @@ export default function PostForm({ initialData, isEditing = false, postId, categ
             rows={15}
             value={formData.content}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-600 rounded-md shadow-sm bg-gray-700/50 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono backdrop-blur-sm"
+            placeholder="Write your post content here..."
+            className="mt-1 block w-full border-gray-600 rounded-md shadow-sm bg-gray-700/50 text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 sm:text-sm backdrop-blur-sm"
           />
         </div>
       </div>

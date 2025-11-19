@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Post, Category } from '@/types'
 import categoriesData from '@/data/categories.json'
-import { getPostBySlug } from '@/lib/action'
+import { getPostBySlug, getRelatedPosts } from '@/lib/action'
 
 const categories = categoriesData as Category[]
 
@@ -45,6 +45,7 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   const category = categories.find(cat => cat.id === post.category)
+  const relatedPosts = await getRelatedPosts(post.category, post._id)
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -52,6 +53,14 @@ export default async function PostPage({ params }: PageProps) {
       month: 'long',
       day: 'numeric'
     })
+  }
+
+  const processContent = (content: string) => {
+    return content
+      .replace(/\n\n/g, '</p><p class="mb-4">')
+      .replace(/\n/g, '<br>')
+      .replace(/^/, '<p class="mb-4">')
+      .replace(/$/, '</p>')
   }
 
   return (
@@ -154,7 +163,7 @@ export default async function PostPage({ params }: PageProps) {
 
               {/* Article Content */}
               <div className="prose prose-lg prose-invert max-w-none">
-                <div className="text-gray-200 leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br>') }} />
+                <div className="text-gray-200 leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: processContent(post.content) }} />
               </div>
 
               {/* Tags */}
@@ -218,34 +227,26 @@ export default async function PostPage({ params }: PageProps) {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-6">
-              {/* Table of Contents Placeholder */}
-              <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
-                <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
-                <div className="space-y-3">
-                  <a href="#introduction" className="block text-gray-400 hover:text-blue-400 transition-colors">Introduction</a>
-                  <a href="#content" className="block text-gray-400 hover:text-blue-400 transition-colors">Main Content</a>
-                  <a href="#conclusion" className="block text-gray-400 hover:text-blue-400 transition-colors">Conclusion</a>
-                </div>
-              </div>
 
               {/* Related Posts */}
               <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
                 <h3 className="text-lg font-semibold text-white mb-4">Related Posts</h3>
                 <div className="space-y-4">
-                  <div className="flex space-x-3">
-                    <div className="w-12 h-12 bg-gray-700 rounded-lg flex-shrink-0"></div>
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-300 hover:text-blue-400 cursor-pointer">Getting Started with React</h4>
-                      <p className="text-xs text-gray-500">2 days ago</p>
-                    </div>
-                  </div>
-                  <div className="flex space-x-3">
-                    <div className="w-12 h-12 bg-gray-700 rounded-lg flex-shrink-0"></div>
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-300 hover:text-blue-400 cursor-pointer">Advanced TypeScript Patterns</h4>
-                      <p className="text-xs text-gray-500">1 week ago</p>
-                    </div>
-                  </div>
+                  {relatedPosts.length > 0 ? (
+                    relatedPosts.map((relatedPost: any) => (
+                      <Link key={relatedPost._id} href={`/posts/${relatedPost.slug}`} className="flex space-x-3 group">
+                        <div className="w-12 h-12 bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
+                          <img src={relatedPost.image} alt={relatedPost.title} className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-300 group-hover:text-blue-400 transition-colors cursor-pointer line-clamp-2">{relatedPost.title}</h4>
+                          <p className="text-xs text-gray-500">{formatDate(relatedPost.publishedAt)}</p>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">No related posts found.</p>
+                  )}
                 </div>
               </div>
             </div>

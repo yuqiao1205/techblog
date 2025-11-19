@@ -38,6 +38,17 @@ export const getCategories = async () => {
   return JSON.parse(JSON.stringify(categories));
 };
 
+export const getRelatedPosts = async (category, excludeId, limit = 5) => {
+  const client = await clientPromise;
+  const db = client.db();
+  const relatedPosts = await db.collection('posts')
+    .find({ category, _id: { $ne: new ObjectId(excludeId) } })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+  return JSON.parse(JSON.stringify(relatedPosts));
+};
+
 export const createPost = async (postData) => {
   const client = await clientPromise;
   const db = client.db();
