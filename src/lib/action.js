@@ -101,6 +101,7 @@ export async function updatePostAction(formData) {
   const content = formData.get('content');
   const excerpt = formData.get('excerpt');
   const category = formData.get('category');
+  const image = formData.get('image');
   const publishedAt = formData.get('publishedAt');
 
   if (!id) return { error: 'Post ID is required' };
@@ -114,7 +115,9 @@ export async function updatePostAction(formData) {
     if (content) updateData.content = content;
     if (excerpt) updateData.excerpt = excerpt;
     if (category) updateData.category = category;
+    if (image) updateData.image = image;
     if (publishedAt) updateData.publishedAt = new Date(publishedAt);
+    updateData.updatedAt = new Date();
 
     const result = await db.collection('posts').updateOne(
       { _id: new ObjectId(id) },
