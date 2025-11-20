@@ -49,6 +49,13 @@ export const getRelatedPosts = async (category, excludeId, limit = 5) => {
   return JSON.parse(JSON.stringify(relatedPosts));
 };
 
+export const getLikes = async (postId) => {
+  const client = await clientPromise;
+  const db = client.db();
+  const post = await db.collection('posts').findOne({ _id: new ObjectId(postId) });
+  return post ? post.likes || 0 : 0;
+};
+
 export const getTags = async () => {
   const client = await clientPromise;
   const db = client.db();
@@ -231,5 +238,39 @@ export async function createPostAction(formData) {
   } catch (error) {
     console.error('Create post error:', error);
     return { error: 'Failed to create post' };
+  }
+}
+
+// Server action for toggling likes on posts
+export async function toggleLikeAction(formData) {
+  'use server';
+
+  const postId = formData.get('postId');
+  const action = formData.get('action'); // 'like' or 'unlike'
+  if (!postId || !action) return { error: 'Post ID and action are required' };
+
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+
+    const increment = action === 'like' ? 1 : -1;
+
+    const result = await db.collection('posts').updateOne(
+      { _id: new ObjectId(postId) },
+      { $inc: { likes: increment } }
+    );
+
+    if (result.matchedCount === 0) {
+      return { error: 'Post not found' };
+    }
+
+    // Get updated like count
+    const updatedPost = await db.collection('posts').findOne({ _id: new ObjectId(postId) });
+    const newLikes = Math.max(0, updatedPost.likes || 0); // Ensure not negative
+
+    return { success: true, likes: newLikes };
+  } catch (error) {
+    console.error('Toggle like error:', error);
+    return { error: 'Failed to toggle like' };
   }
 }
