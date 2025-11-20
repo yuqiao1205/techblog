@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import { getTags } from '@/lib/action'
 
-export default function Footer() {
+export default async function Footer() {
   const currentYear = new Date().getFullYear()
+  const tags = await getTags()
 
   return (
     <footer className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-t border-gray-700/50 overflow-hidden">
@@ -18,7 +20,7 @@ export default function Footer() {
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/5 to-cyan-600/10"></div>
 
       <div className="relative container mx-auto px-4 py-12 backdrop-blur-sm">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
@@ -107,6 +109,21 @@ export default function Footer() {
                 </span>
               </li>
             </ul>
+          </div>
+
+          {/* Tags */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">Popular Tags</h3>
+            <div className="flex flex-wrap gap-2">
+              {tags.slice(0, 10).map((tag: any) => (
+                <span
+                  key={tag.name}
+                  className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 px-3 py-1 rounded-full text-sm font-medium border border-blue-500/30 hover:from-blue-500/30 hover:to-purple-500/30 transition-all duration-200 cursor-pointer"
+                >
+                  #{tag.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 

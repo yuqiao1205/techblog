@@ -49,6 +49,24 @@ export const getRelatedPosts = async (category, excludeId, limit = 5) => {
   return JSON.parse(JSON.stringify(relatedPosts));
 };
 
+export const getTags = async () => {
+  const client = await clientPromise;
+  const db = client.db();
+  const tags = await db.collection('tags').find({}).sort({ count: -1, name: 1 }).toArray();
+  return JSON.parse(JSON.stringify(tags));
+};
+
+export const updateTag = async (tagName, increment = 1) => {
+  const client = await clientPromise;
+  const db = client.db();
+  const result = await db.collection('tags').findOneAndUpdate(
+    { name: tagName.toLowerCase().trim() },
+    { $inc: { count: increment } },
+    { upsert: true, returnDocument: 'after' }
+  );
+  return JSON.parse(JSON.stringify(result));
+};
+
 export const createPost = async (postData) => {
   const client = await clientPromise;
   const db = client.db();
@@ -102,6 +120,7 @@ export async function updatePostAction(formData) {
   const excerpt = formData.get('excerpt');
   const category = formData.get('category');
   const image = formData.get('image');
+  const tags = formData.get('tags');
   const publishedAt = formData.get('publishedAt');
 
   if (!id) return { error: 'Post ID is required' };
@@ -110,12 +129,31 @@ export async function updatePostAction(formData) {
     const client = await clientPromise;
     const db = client.db();
 
+    // Get old post to compare tags
+    const oldPost = await db.collection('posts').findOne({ _id: new ObjectId(id) });
+    const oldTags = oldPost?.tags || [];
+
     const updateData = {};
     if (title) updateData.title = title;
     if (content) updateData.content = content;
     if (excerpt) updateData.excerpt = excerpt;
     if (category) updateData.category = category;
     if (image) updateData.image = image;
+    if (tags !== undefined) {
+      const newTagsArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+      updateData.tags = newTagsArray;
+
+      // Update tag counts
+      const tagsToDecrement = oldTags.filter(tag => !newTagsArray.includes(tag));
+      const tagsToIncrement = newTagsArray.filter(tag => !oldTags.includes(tag));
+
+      for (const tag of tagsToDecrement) {
+        await updateTag(tag, -1);
+      }
+      for (const tag of tagsToIncrement) {
+        await updateTag(tag, 1);
+      }
+    }
     if (publishedAt) updateData.publishedAt = new Date(publishedAt);
     updateData.updatedAt = new Date();
 
@@ -181,6 +219,13 @@ export async function createPostAction(formData) {
     };
 
     const result = await db.collection('posts').insertOne(postData);
+
+    // Update tag counts
+    if (tagsArray.length > 0) {
+      for (const tag of tagsArray) {
+        await updateTag(tag, 1);
+      }
+    }
 
     return { success: true, postId: result.insertedId.toString() };
   } catch (error) {
