@@ -56,6 +56,20 @@ export const getLikes = async (postId) => {
   return post ? post.likes || 0 : 0;
 };
 
+export const incrementViews = async (postId) => {
+  const client = await clientPromise;
+  const db = client.db();
+  const result = await db.collection('posts').updateOne(
+    { _id: new ObjectId(postId) },
+    { $inc: { views: 1 } }
+  );
+  if (result.matchedCount > 0) {
+    const updatedPost = await db.collection('posts').findOne({ _id: new ObjectId(postId) });
+    return updatedPost.views || 0;
+  }
+  return 0;
+};
+
 export const getTags = async () => {
   const client = await clientPromise;
   const db = client.db();
@@ -123,6 +137,7 @@ export async function updatePostAction(formData) {
 
   const id = formData.get('id');
   const title = formData.get('title');
+  const slug = formData.get('slug');
   const content = formData.get('content');
   const excerpt = formData.get('excerpt');
   const category = formData.get('category');
@@ -136,12 +151,14 @@ export async function updatePostAction(formData) {
     const client = await clientPromise;
     const db = client.db();
 
-    // Get old post to compare tags
+    // Get old post to compare tags and get old slug
     const oldPost = await db.collection('posts').findOne({ _id: new ObjectId(id) });
     const oldTags = oldPost?.tags || [];
+    const oldSlug = oldPost?.slug;
 
     const updateData = {};
     if (title) updateData.title = title;
+    if (slug) updateData.slug = slug;
     if (content) updateData.content = content;
     if (excerpt) updateData.excerpt = excerpt;
     if (category) updateData.category = category;
@@ -173,7 +190,8 @@ export async function updatePostAction(formData) {
       return { error: 'Post not found' };
     }
 
-    return { success: true };
+    const newSlug = slug || oldSlug;
+    return { success: true, slug: newSlug };
   } catch (error) {
     console.error('Update post error:', error);
     return { error: 'Failed to update post' };

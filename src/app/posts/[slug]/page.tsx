@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Post, Category } from '@/types'
 import categoriesData from '@/data/categories.json'
-import { getPostBySlug, getRelatedPosts } from '@/lib/action'
+import { getPostBySlug, getRelatedPosts, incrementViews } from '@/lib/action'
 import LikeButton from '@/components/LikeButton'
 import PostStats from '@/components/PostStats'
 import { PostProvider } from '@/components/PostProvider'
@@ -46,6 +46,10 @@ export default async function PostPage({ params }: PageProps) {
   if (!post) {
     notFound()
   }
+
+  // Increment views
+  const updatedViews = await incrementViews(post._id || post.id)
+  post.views = updatedViews
 
   const category = categories.find(cat => cat.id === post.category)
   const relatedPosts = await getRelatedPosts(post.category, post._id)

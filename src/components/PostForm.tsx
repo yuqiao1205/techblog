@@ -52,7 +52,11 @@ export default function PostForm({ initialData, isEditing = false, postId, categ
     if (result.error) {
       setError(result.error)
     } else {
-      router.push('/admin')
+      if (isEditing && 'slug' in result && result.slug) {
+        router.push(`/posts/${result.slug}`)
+      } else {
+        router.push('/admin')
+      }
     }
 
     setLoading(false)
