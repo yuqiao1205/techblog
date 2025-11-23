@@ -51,7 +51,7 @@ export default function Header() {
           <Link href="/contact" className={linkClasses('/contact')}>
             Contact
           </Link>
-          <a href="https://yuqiao1205.github.io/portfolio/" target="_blank" rel="noopener noreferrer" className="relative px-3 py-2 text-sm font-medium transition-colors duration-200 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md">
+          <a href="https://portfolio-six-theta-4s1jg1wwkr.vercel.app/" target="_blank" rel="noopener noreferrer" className="relative px-3 py-2 text-sm font-medium transition-colors duration-200 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md">
             Portfolio
           </a>
           <Link href="/admin/login" className={linkClasses('/admin')}>
