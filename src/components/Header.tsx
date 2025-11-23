@@ -80,7 +80,7 @@ export default function Header() {
             <Link href="/contact" className={`block px-3 py-2 text-sm font-medium transition-colors duration-200 ${isActive('/contact') ? 'text-blue-400 bg-blue-500/10 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'}`} onClick={() => setIsOpen(false)}>
               Contact
             </Link>
-            <a href="https://yuqiao1205.github.io/portfolio/" target="_blank" rel="noopener noreferrer" className="block px-3 py-2 text-sm font-medium transition-colors duration-200 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md" onClick={() => setIsOpen(false)}>
+            <a href="https://portfolio-six-theta-4s1jg1wwkr.vercel.app/" target="_blank" rel="noopener noreferrer" className="block px-3 py-2 text-sm font-medium transition-colors duration-200 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md" onClick={() => setIsOpen(false)}>
               Portfolio
             </a>
             <Link href="/admin/login" className={`block px-3 py-2 text-sm font-medium transition-colors duration-200 ${isActive('/admin') ? 'text-blue-400 bg-blue-500/10 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-md'}`} onClick={() => setIsOpen(false)}>
