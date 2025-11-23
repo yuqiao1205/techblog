@@ -181,7 +181,7 @@ export default async function PostPage({ params }: PageProps) {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">{post.author}</h3>
+                  <h3 className="text-lg font-semibold text-white">Author:{post.author}</h3>
                   <p className="text-gray-400">Tech Blogger & Developer</p>
                 </div>
               </div>
